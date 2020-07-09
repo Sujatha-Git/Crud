@@ -24,6 +24,7 @@ public class App {
 		System.out.println("2) Get Employee");
 		System.out.println("3) Update Employee Name");
 		System.out.println("4) Delete Employee");
+		System.out.println("5) Get all employees");
 		Scanner sc= new Scanner(System.in);
 		int input = sc.nextInt();
 		System.out.println(input);
@@ -36,10 +37,16 @@ public class App {
 			updateEmployee(); break;
 		case 4:
 			deleteEmployee(); break;
+		case 5:
+			getAllEmployees(); break;
 		default:
 			System.out.println("Invalid Option Selected.. Please select(1/2/3/4)");
 		}
 
+	}
+
+	private static void getAllEmployees() {
+		System.out.println("ALL EMPLOYEES LIST:");		
 	}
 
 	private static void deleteEmployee() {
