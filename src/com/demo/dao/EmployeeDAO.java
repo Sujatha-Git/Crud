@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.demo.beans.Employee;
 import com.demo.exception.EmployeeNotFoundException;
@@ -57,6 +58,61 @@ public class EmployeeDAO {
 		if(!eFound)
 			throw new EmployeeNotFoundException("EMPLOYEE NOT FOUND");
 		return e;
+	}
+
+	public ArrayList<Employee> getAllEmployees() {
+		
+		ArrayList<Employee> empList = new ArrayList<Employee>();
+		Connection con = DBConnection.getConnection();
+		String query = "select * from employee";
+		try {
+			PreparedStatement st = con.prepareStatement(query);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				Employee e = new Employee();
+				e.setId(rs.getInt(1));
+				e.setName(rs.getString(2));
+				e.setDid(rs.getInt(3));
+				e.setSalary(rs.getInt(4));
+				e.setMid(rs.getInt(5));
+				empList.add(e);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return empList;
+	}
+
+	public int updateEmployee(int eid, String ename) {
+		Connection con = DBConnection.getConnection();
+		String query = "update employee set name = ? where id = ?";
+		int result = 0;
+		try {
+			PreparedStatement st = con.prepareStatement(query);
+			st.setString(1, ename);
+			st.setInt(2, eid);
+			result = st.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public int deleteEmployee(int eid) {
+		Connection con = DBConnection.getConnection();
+		String query = "delete from employee where id = ?";
+		int result =0;
+		try {
+			PreparedStatement st = con.prepareStatement(query);
+			st.setInt(1, eid);
+			result = st.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

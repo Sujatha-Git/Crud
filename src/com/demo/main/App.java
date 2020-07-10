@@ -3,6 +3,8 @@
  */
 package com.demo.main;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.demo.beans.Employee;
@@ -11,6 +13,7 @@ import com.demo.exception.EmployeeNotFoundException;
 /*
  * Integrate Log4j
  * Integrate JUnit
+ * create stored procedure and call
  * Add JDBC Transactions
  * Convert To Maven Project
  * Git Push
@@ -46,16 +49,50 @@ public class App {
 	}
 
 	private static void getAllEmployees() {
-		System.out.println("ALL EMPLOYEES LIST:");		
+		System.out.println("ALL EMPLOYEES LIST:");	
+		EmployeeBO eBO =  new EmployeeBO();
+		ArrayList<Employee> list = new ArrayList<Employee>();
+		list = eBO.getAllEmployees();
+		for(int i=0;i<list.size();i++) { // for(Employee e : list) sysout(e)
+			System.out.println(list.get(i));
+		}
+		
 	}
 
 	private static void deleteEmployee() {
 		System.out.println("*DELETE EMPLOYEE STARTED***");
+		System.out.println("Enter Employee id to delete");
+		Scanner sc = new Scanner(System.in);
+		int eid = sc.nextInt();
+		EmployeeBO eBO = new EmployeeBO();
+		int result = eBO.deleteEmployee(eid);
+		System.out.println("result==="+result);
+		if(result==0) {
+			System.out.println(result+" record is deleted");
+		}else {
+			System.out.println("No record deleted");
+		}
 		
 	}
 
 	private static void updateEmployee() {
-		System.out.println("*UPDATE EMPLOYEE STARTED***");	
+		System.out.println("*UPDATE EMPLOYEE STARTED***");
+		System.out.println("Enter employee id to which you want to update");
+		Scanner sc = new Scanner(System.in);
+		int eid = sc.nextInt();
+		System.out.println("Enter name to upate");
+		sc.nextLine();
+		String ename = sc.nextLine();
+		EmployeeBO eBO = new EmployeeBO();
+		int result = eBO.updateEmployee(eid,ename);
+		if(result>0) {
+			System.out.println(result+" record updated");
+		}
+		else {
+			System.out.println("No record updated");
+		}
+		
+		
 	}
 
 	private static void getEmployee() {
